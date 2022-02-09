@@ -1,3 +1,3 @@
 # Configurations
 
-Repo with my config files
+Repository with my config files
