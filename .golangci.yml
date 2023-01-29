@@ -59,12 +59,12 @@ linters-settings:
       - default
       - prefix(github.com/org/project)
   goconst:
-      match-constant: true
-      min-len: 2
-      min-occurrences: 3
-      ignore-tests: true
-      ignore-calls: true
-      numbers: true
+    match-constant: true
+    min-len: 2
+    min-occurrences: 3
+    ignore-tests: true
+    ignore-calls: true
+    numbers: true
   interfacebloat:
     max: 6
   lll:
