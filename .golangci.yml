@@ -1,78 +1,88 @@
 run:
-  timeout: 3m
-  tests: true
+  concurrency: 4
+  deadline: 10m
+  issues-exit-code: 1
+  tests: true # include test files or not
+  skip-dirs-use-default: true
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  sort-results: true
 
 linters:
   disable-all: true
   enable:
-    - errcheck
-    - gosimple
-    - ineffassign
-    - unused
+    - asciicheck
+    - bidichk # checks for dangerous unicode character sequences
     - bodyclose
-    - cyclop
-    - dogsled
+    - dogsled # checks assignments with too many blank identifiers ('_')
+    - dupl
+    - errcheck
+    - errname
     - funlen
-    - gosec
-    - gci
+    - gocognit # checks how hard does the code is intuitively to understand
     - goconst
+    - gocyclo
+    - gosec
+    - ineffassign
     - interfacebloat
     - lll
+    - misspell
     - nestif
-    - nlreturn
-    
+    - nilerr
+    - nonamedreturns
+    - prealloc
+    - predeclared
+    - unconvert
+
 linters-settings:
-  errcheck:
-    check-type-assertions: true
-  cyclop:
-    skip-tests: true
   dogsled:
     max-blank-identifiers: 2
+  dupl:
+    threshold: 100 # tokens count to trigger issue
+  errcheck:
+    check-type-assertions: true # report about not checking of errors in type assertions
+    check-blank: true # report about assignment of errors to blank identifier ('_')
   funlen:
-    lines: 30
+    lines: 100
+    statements: 75
+  gocognit:
+    min-complexity: 10
+  goconst:
+    min-len: 3
+    min-occurrences: 2
+    ignore-tests: false
+    match-constant: true
+  gocyclo:
+    min-complexity: 15
   gosec:
     exclude-generated: true
     severity: medium
     includes:
       - G101 # Look for hard coded credentials
-      - G103 # Audit the use of unsafe block
-      - G104 # Audit errors not checked
       - G106 # Audit the use of ssh.InsecureIgnoreHostKey
       - G107 # Url provided to HTTP request as taint input
-      - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
       - G110 # Potential DoS vulnerability via decompression bomb
       - G114 # Use of net/http serve function that has no support for setting timeouts
-      - G201 # SQL query construction using format string
       - G202 # SQL query construction using string concatenation
-      - G203 # Use of unescaped data in HTML templates
-      - G204 # Audit use of command execution
-      - G307 # Deferring a method which returns an error
       - G401 # Detect the usage of DES, RC4, MD5 or SHA
       - G402 # Look for bad TLS connection settings
       - G403 # Ensure minimum RSA key length of 2048 bits
-      - G404 # Insecure random number source (rand)
-  gci:
-    skip-generated: false
-    custom-order: true
-    sections:
-      - standard
-      - default
-      - prefix(github.com/org/project)
-  goconst:
-    match-constant: true
-    min-len: 2
-    min-occurrences: 3
-    ignore-tests: true
-    ignore-calls: true
-    numbers: true
+      - G404 # Insecure random number source (rand) 
   interfacebloat:
     max: 6
   lll:
-    line-length: 100
+    line-length: 140
+    tab-width: 4 # tab width in spaces
+  misspell:
+    locale: US
   nestif:
-    min-complexity: 3
-
-output:
-  print-issued-lines: true
-  print-linter-name: true
-  sort-results: true
+    min-complexity: 5
+  nonamedreturns:
+    report-error-in-defer: true
+  prealloc:
+    simple: false
+    range-loops: true
+    for-loops: true
