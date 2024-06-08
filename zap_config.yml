@@ -1,0 +1,15 @@
+logger:
+  level: debug
+  encoding: json
+  output_paths:
+    - stdout
+  error_output_paths:
+    - stderr
+encoder:
+  message_key: msg
+  level_key: lvl
+  level_encoder: capital
+  time_key: ts
+  time_encoder: rfc3339nano
+  caller_key: caller
+  caller_encoder: short
